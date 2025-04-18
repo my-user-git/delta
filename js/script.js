@@ -47,30 +47,31 @@ class Data {
         let yesterdayData = new Data();
         yesterdayData.revenue = currentData.revenue * this.getRandomFloat(0.97, 1.05);
         yesterdayData.revenuePercentage = this.getPercentage(currentData.revenue, yesterdayData.revenue);
+        console.log(yesterdayData.revenuePercentage);
 
         yesterdayData.cash = this.getCash(yesterdayData.revenue);
-        yesterdayData.cashPercentage = this.getPercentage(yesterdayData.cash, currentData.cash);
+        yesterdayData.cashPercentage = this.getPercentage(currentData.cash, yesterdayData.cash);
 
         yesterdayData.cardless = this.getCardless(yesterdayData.revenue, yesterdayData.cash);
-        yesterdayData.cardlessPercentage = this.getPercentage(yesterdayData.cardless, currentData.cardless);
+        yesterdayData.cardlessPercentage = this.getPercentage(currentData.cardless, yesterdayData.cardless);
 
         yesterdayData.cards = yesterdayData.revenue - yesterdayData.cash - yesterdayData.cardless;
-        yesterdayData.cardsPercentage = this.getPercentage(yesterdayData.cards, currentData.cards);
+        yesterdayData.cardsPercentage = this.getPercentage(currentData.cards, yesterdayData.cards);
 
         yesterdayData.averageCheck = (yesterdayData.revenue - yesterdayData.deletionsAfter) / yesterdayData.checks;
-        yesterdayData.averageCheckPercentage = this.getPercentage(yesterdayData.averageCheck, currentData.averageCheck);
+        yesterdayData.averageCheckPercentage = this.getPercentage(currentData.averageCheck, yesterdayData.averageCheck);
 
         yesterdayData.averageGuest = (yesterdayData.revenue - yesterdayData.deletionsBefore) / yesterdayData.guests;
-        yesterdayData.averageGuestPercentage = this.getPercentage(yesterdayData.averageGuest, currentData.averageGuest);
+        yesterdayData.averageGuestPercentage = this.getPercentage(currentData.averageGuest, yesterdayData.averageGuest);
 
         yesterdayData.deletionsAfter = this.getRandomFloat(750, 1250);
-        yesterdayData.deletionsAfterPercentage = this.getPercentage(yesterdayData.deletionsAfter, currentData.deletionsAfter);
+        yesterdayData.deletionsAfterPercentage = this.getPercentage(currentData.deletionsAfter, yesterdayData.deletionsAfter);
 
         return yesterdayData;
     }
 
     getPercentage(value1, value2) {
-        return (((value1 - value2) / value2) * 100).toFixed(2);
+        return ((value1 / value2) * 100).toFixed(2);
     }
 }
 
@@ -102,7 +103,9 @@ function displayData() {
         row.classList.add('table__row');
 
         // Вычисляем процент изменения от вчерашнего значения к текущему
-        const percentageChange = ((indicator.yesterday - indicator.current) / indicator.current * 100).toFixed(2);
+        const percentageChange = ((indicator.current - indicator.yesterday) / indicator.yesterday * 100).toFixed(2);
+
+        console.log(percentageChange);
         const percentageColor = percentageChange >= 0 ? 'style="color:#76b55f"' : 'style="color:#ff4359"';
         const percentageBG = percentageChange >= 0 ? 'style="background-color:#ecf7e7"' : 'style="background-color:#fee6e6"';
 
