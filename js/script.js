@@ -114,7 +114,7 @@ function displayData() {
         const weekDayFormatted = indicator.week.toLocaleString('ru-RU');
 
         // Добавляем значение за вчера и процент с окраской
-        const yesterdayDisplay = `${yesterdayFormatted} <span ${percentageColor};">${percentageChange}%</span>`;
+        const yesterdayDisplay = `${yesterdayFormatted}<span ${percentageColor};">${percentageChange}%</span>`;
 
         row.innerHTML = `<td class="table__cell">${indicator.name}</td>
         <td class="table__cell">${currentFormatted}</td>
