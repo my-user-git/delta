@@ -47,7 +47,6 @@ class Data {
         let yesterdayData = new Data();
         yesterdayData.revenue = currentData.revenue * this.getRandomFloat(0.97, 1.05);
         yesterdayData.revenuePercentage = this.getPercentage(currentData.revenue, yesterdayData.revenue);
-        console.log(yesterdayData.revenuePercentage);
 
         yesterdayData.cash = this.getCash(yesterdayData.revenue);
         yesterdayData.cashPercentage = this.getPercentage(currentData.cash, yesterdayData.cash);
@@ -105,7 +104,6 @@ function displayData() {
         // Вычисляем процент изменения от вчерашнего значения к текущему
         const percentageChange = ((indicator.current - indicator.yesterday) / indicator.yesterday * 100).toFixed(2);
 
-        console.log(percentageChange);
         const percentageColor = percentageChange >= 0 ? 'style="color:#76b55f"' : 'style="color:#ff4359"';
         const percentageBG = percentageChange >= 0 ? 'style="background-color:#ecf7e7"' : 'style="background-color:#fee6e6"';
 
@@ -154,19 +152,17 @@ document.getElementById('table-container').addEventListener('click', function (e
     console.log(targetRow);
     if (targetRow) {
         const childDivs = targetRow.getElementsByClassName('table__cell');
-
         for (let i = 1; i < childDivs.length; i++) {
-            // Получаем текстовое содержимое 
-            dataValue = childDivs[i].textContent;
+            let dataValue = childDivs[i].innerHTML;
             dataValue = dataValue.replace(/<span[^>]*>.*?<\/span>/g, '').trim();
+            dataValue = dataValue.replace(/&nbsp;/g, ''); 
             dataValue = dataValue.replace(/\s+/g, '');
-            dataValue = Math.floor(parseFloat(dataValue));
-
-            if (!isNaN(dataValue)) {
-                dataRow.push(dataValue);
+            let numericValue = Math.floor(parseFloat(dataValue));
+            if (!isNaN(numericValue)) {
+                dataRow.push(numericValue);
             }
         }
-
+        
         dataArrFun(dataRow, childDivs[0].textContent);
     }
 });
